@@ -1,0 +1,275 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Data.OleDb;
+
+namespace ZDRJC2
+{
+    public partial class Main : Form
+    {
+        string strcon = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + Environment.CurrentDirectory + "\\JCR.accdb; Persist Security Info=False";
+        public Main()
+        {
+            InitializeComponent();
+        }
+        
+        private void 退出ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult dRe= MessageBox.Show("确认退出？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dRe == DialogResult.Yes)
+                Application.Exit();
+        }
+
+        private void Main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DialogResult dRe = MessageBox.Show("确认退出？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dRe == DialogResult.No)
+                e.Cancel = true;
+            else
+            {
+                Application.Exit();
+            }
+        }
+
+        private void 添加管理员ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Regist newRegist = new Regist();
+            newRegist.ShowDialog();
+        }
+
+        private void 删除管理员ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DelAdm del = new DelAdm();
+            del.ShowDialog();
+        }
+
+        private void 添加检测人ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            newJCR op = new newJCR();
+            op.Show();
+        }
+        //按姓名查找
+        private void btnselect_Click(object sender, EventArgs e)
+        {
+            if (checkSF.Text.Trim() == "")
+            {
+                MessageBox.Show("请输入姓名", "提示");
+                checkSF.Focus();
+            }
+            else
+            {
+                using (OleDbConnection conn = new OleDbConnection(strcon))
+                {
+                    //是否存在输入的监测人
+                    string sqlexsit = "select JCRname from JCRJBXX where JCRname='"+checkSF.Text.Trim()+"'";
+                    OleDbCommand comm = new OleDbCommand(sqlexsit,conn);
+                    try
+                    {
+                        conn.Open();
+                    }
+                    catch(Exception ex)
+                    {
+                        MessageBox.Show("连接出错\r\n" +ex.Message);
+                    }
+
+                    object exResult = comm.ExecuteScalar();
+                    if (exResult == null)
+                    {
+                        MessageBox.Show("不存在该监测人");
+                        checkSF.Focus();
+                    }
+                    //存在该监测人
+                    else
+                    {
+                        //集合用来存储拿出来的信息
+                        List<getInfoByName> infoByName = new List<getInfoByName>();
+                        getInfoByName getInfo = new getInfoByName();
+                        string sqlChart = "select JCRname,JCRsex,JCRnation,JCRpolity,JCRLiPla,JCRidenty,JCRphone from JCRJBXX where JCRname='"+checkSF.Text.Trim()+"'";
+                        comm.CommandText = sqlChart;
+                        using (OleDbDataReader myReader = comm.ExecuteReader())
+                        {
+                            while (myReader.Read())
+                            {
+                                getInfo.JCRname = myReader["JCRname"].ToString();
+                                getInfo.JCRsex = myReader["JCRsex"].ToString();
+                                getInfo.JCRnation = myReader["JCRnation"].ToString();
+                                getInfo.JCRpolity = myReader["JCRpolity"].ToString();
+                                getInfo.JCRLiPla = myReader["JCRLiPla"].ToString();
+                                getInfo.JCRidenty = myReader["JCRidenty"].ToString();
+                                getInfo.JCRphone = myReader["JCRphone"].ToString();
+                                infoByName.Add(getInfo);
+
+                            }
+
+                        }//using
+                        DVjbxx.DataSource = infoByName;
+                    }
+                }
+            }
+        }
+
+        private void Main_Load(object sender, EventArgs e)
+        {
+            // TODO: 这行代码将数据加载到表“jCRDataSet1.JCRSJ”中。您可以根据需要移动或删除它。
+ 
+          
+            // TODO: 这行代码将数据加载到表“jCRDataSet.JCRJBXX”中。您可以根据需要移动或删除它。
+            this.jCRJBXXTableAdapter.Fill(this.jCRDataSet.JCRJBXX);
+            SJgird.Visible = false;
+            
+        }
+        //显示当前人的事件
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (checkSF.Text.Trim() == "")
+                MessageBox.Show("请先输入姓名", "提示");
+            else
+            {
+                using (OleDbConnection conn = new OleDbConnection(strcon))
+                {
+                    string sql = "select JCRname from JCRJBXX where JCRname='"+checkSF.Text.Trim()+"'";
+                    OleDbCommand comm = new OleDbCommand(sql,conn);
+                    try
+                    {
+                        conn.Open();
+                    }
+                    catch { }
+                        int result = comm.ExecuteNonQuery();
+                    if (result == 0)
+                    {
+                        MessageBox.Show("输入的姓名不存在或没有事件", "提示");
+                        
+                    }
+                    else
+                    {
+                        List<GetSJByName> getSJ = new List<GetSJByName>();
+                        GetSJByName SJ = new GetSJByName();
+                        string sqlSJ = "select JCRname,SJ1,SJ2,SJ3,SJ4,SJ5,SJ6,SJ7,SJ8,SJ9,SJ10,SJ11,SJ12,SJ13,SJ14,SJ15,SJ16,SJ17,SJ18,SJ19,SJ20 from JCRSJ where JCRname='"+checkSF.Text.Trim()+"'";
+                        comm.CommandText = sqlSJ;
+                        using (OleDbDataReader Reader = comm.ExecuteReader())
+                        {
+                            while (Reader.Read())
+                            {
+                                SJ.JCRname = Reader["JCRname"].ToString();
+                                SJ.SJ1 = Reader["SJ1"].ToString();
+                                SJ.SJ2 = Reader["SJ2"].ToString();
+                                SJ.SJ3 = Reader["SJ3"].ToString();
+                                SJ.SJ4 = Reader["SJ4"].ToString();
+                                SJ.SJ5 = Reader["SJ5"].ToString();
+                                SJ.SJ6 = Reader["SJ6"].ToString();
+                                SJ.SJ7 = Reader["SJ7"].ToString();
+                                SJ.SJ8 = Reader["SJ8"].ToString();
+                                SJ.SJ9 = Reader["SJ9"].ToString();
+                                SJ.SJ10 = Reader["SJ10"].ToString();
+                                SJ.SJ11 = Reader["SJ11"].ToString();
+                                SJ.SJ12 = Reader["SJ12"].ToString();
+                                SJ.SJ13 = Reader["SJ13"].ToString();
+                                SJ.SJ14 = Reader["SJ14"].ToString();
+                                SJ.SJ15 = Reader["SJ15"].ToString();
+                                SJ.SJ16 = Reader["SJ16"].ToString();
+                                SJ.SJ17 = Reader["SJ17"].ToString();
+                                SJ.SJ18 = Reader["SJ18"].ToString();
+                                SJ.SJ19 = Reader["SJ19"].ToString();
+                                SJ.SJ20 = Reader["SJ20"].ToString();
+
+                            }
+                            getSJ.Add(SJ);
+                        }
+                        SJgird.DataSource = getSJ;
+                        SJgird.Visible = true;
+                    }
+                }
+            }
+        }
+
+        private void 添加检测人事件ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddSJ addsj = new AddSJ();
+            addsj.Show();
+        }
+
+        private void 查询ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkAge_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+        #region  查询模块
+        //查询的全局变量
+        string sql = string.Empty;
+        
+
+        /// <summary>
+        /// 单项查询
+        /// </summary>
+        /// <returns>查询失败返回0，查询成功返回查询到的数量</returns>
+        public int singleQuery()
+        {
+            sql += "select JCRname as 姓名, JCRsex as 性别 ,JCRnation as 民族, JCRpolity as 政治面貌 ,JCRLiPla as 现居住地, JCRidenty as 身份证号 ,"
+                + "JCRphone as 联系电话, JCRbm as 别名, JCRfl as 分类, JCRJG as 籍贯,JCRsf as 身份,JCRfy as 方言,JCRzjxy as 宗教信仰, JCRsxdj as 思想等级,JCRlkdw as 列控单位,JCRjjzk as 经济状况,JCRxz as 现状,JCRlkjb as 列控级别,"
+                + "JCRbyyx as 毕业院校,JCRhjszd as 户籍所在地, JCRgzdw as 工作单位,JCRzy as 职业,JCRgxry as 关系人员,JCRgddh as 固定电话,JCRbgsdh as 办公室电话,JCRyddh as 移动电话,JCRqq as QQ,JCRwx as 微信,JCRdzyj as 电子邮件,JCRgrjl as 个人简历 "
+                + " from JCRJBXX where 1=1 and ";
+
+            if (checkName.Checked == false && checkJG.Checked == false && checkLKDW.Checked == false && checkLKJB.Checked == false && checkXJZD.Checked == false && checkGXRY.Checked == false)
+            { MessageBox.Show("请至少选择一项", "提示"); return 0; }
+            //单独选择姓名
+            else if (checkName.Checked == true && checkJG.Checked == false && checkLKDW.Checked == false && checkLKJB.Checked == false && checkXJZD.Checked == false && checkGXRY.Checked == false)
+            {
+                sql += "JCRname='" + sqlName.Text.Trim() + "'";
+                int rename = sqlMethod(sqlName.Text.Trim(), "姓名", sql);
+                return rename;
+            }
+            else
+                return 0;
+        }
+
+        /// <summary>
+        ///单项查询 访问数据库的方法
+        /// </summary>
+        /// <param name="text">要查询的textbox</param>
+        /// <param name="title">要查询的check</param>
+        /// <param name="sql">查询字符串</param>
+        /// <returns>查询成功返回查到的条数，否则返回0</returns>
+        public int sqlMethod(string text, string title, string sql)
+        {
+            sql += "select JCRname as 姓名, JCRsex as 性别 ,JCRnation as 民族, JCRpolity as 政治面貌 ,JCRLiPla as 现居住地, JCRidenty as 身份证号 ,"
+                +"JCRphone as 联系电话, JCRbm as 别名, JCRfl as 分类, JCRJG as 籍贯,JCRsf as 身份,JCRfy as 方言,JCRzjxy as 宗教信仰, JCRsxdj as 思想等级,JCRlkdw as 列控单位,JCRjjzk as 经济状况,JCRxz as 现状,JCRlkjb as 列控级别,"
+                +"JCRbyyx as 毕业院校,JCRhjszd as 户籍所在地, JCRgzdw as 工作单位,JCRzy as 职业,JCRgxry as 关系人员,JCRgddh as 固定电话,JCRbgsdh as 办公室电话,JCRyddh as 移动电话,JCRqq as QQ,JCRwx as 微信,JCRdzyj as 电子邮件,JCRgrjl as 个人简历 "
+                +" from JCRJBXX where 1=1 and ";
+            if (text == "")
+            {
+                MessageBox.Show("请输入" + title + "," + "提示");
+                return 0;
+            }
+            else
+            {
+                using (OleDbConnection conn = new OleDbConnection(strcon))
+                {
+                    OleDbCommand comm = new OleDbCommand(sql, conn);
+                    conn.Open();
+                    OleDbDataAdapter da = new OleDbDataAdapter(comm);
+                    DataSet ds = new DataSet();
+                    int result = da.Fill(ds, "dt");
+                    if (result != 0)
+                    {
+                        gridSql.DataSource = ds.Tables["dt"];
+                        return result;
+                    }
+                    else
+                        return 0;
+                }
+            }//else
+        }
+        #endregion
+    }//class
+}//namespace

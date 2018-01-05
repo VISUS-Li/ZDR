@@ -1,0 +1,41 @@
+#include<iostream>
+#include<cmath>
+using namespace std;
+
+void main()
+{
+	int C;
+	int xA[100]={0};
+	int yA[100]={0};
+	int xB[100]={0};
+	int yB[100]={0};
+	int T[100]={0};
+	int v1[100]={0};
+	int v2[100]={0};
+	cout<<"请输入数据组数:";
+	cin>>C;					//输入一个整数C,C<100
+	for(int i=C-1;i>=0;i--)
+	{
+		cout<<"请顺序输入每组数据xA,yA,xB,yB,v1,v2,T";
+		cin>>xA[i]>>yA[i]>>xB[i]>>yB[i]>>v1[i]>>v2[i]>>T[i];//输入xA,yA,xB,yB,v1,v2,T,其中xA<0,yA>0,xB>0,yB<0,v1<=v2
+		if(xA[i]>0||yA[i]<0||xB[i]<0||yB[i]>0||v1[i]>v2[i]||xA[i]>109||xB[i]>109||yA[i]>109||yB[i]>109) //输入数据不符合要求
+		{
+			cout<<"输入数据不符合要求,请重新输入此组数据:";
+			i++;
+		}
+	}
+	for(int j=C-1;j>=0;j--)
+	{
+		int a,b,c;
+		a=v2[j]*v2[j]-v1[j]*v1[j];
+		b=2*(v1[j]*v1[j]*xB[j]-v2[j]*v2[j]*xA[j]);
+		c=v2[j]*v2[j]*(xA[j]*xA[j]+yA[j]*yA[j])-v1[j]*v1[j]*(xB[j]*xB[j]+yB[j]*yB[j]);
+		double x=(sqrt((double)(b*b-4*a*c))-b)/(2*a);
+		double t1,t2;
+		t1=sqrt((xA[j]-x)*(xA[j]-x)+yA[j]*yA[j])/v1[j];
+		t2=sqrt((xB[j]-x)*(xB[j]-x)+yB[j]*yB[j])/v2[j];
+		if(t1+t2<T[j])
+			cout<<"YES"<<endl;
+		else cout<<"NO"<<endl;
+	}
+}

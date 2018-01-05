@@ -1,0 +1,46 @@
+Ôªø2016-11-15 14:19:18.765 T:5596    INFO: Successed to initialize libcurl
+2016-11-15 14:19:18.765 T:5596 WARNING: InitADCache filepath empty
+2016-11-15 14:19:18.765 T:5596   DEBUG: GetModuleFileName  E:\∞Æ∆Ê“’\IQIYI Video\PStyle\
+2016-11-15 14:19:18.766 T:5596    INFO: PingBackManage::Init:  /pingback.db
+2016-11-15 14:19:18.766 T:5596    INFO: PumaMediaplayer Build on [May  4 2016 16:26:49]
+2016-11-15 14:19:18.766 T:5596   DEBUG: InitFFmpeg
+2016-11-15 14:19:18.766 T:5596   DEBUG: init FFmpeg begin!
+2016-11-15 14:19:18.766 T:4740   DEBUG: Enter Net Request
+2016-11-15 14:19:18.766 T:4740    INFO: send request: http://data.video.qiyi.com/v.f4v, set timeout: 3
+2016-11-15 14:19:18.770 T:4740    INFO: http exit: 0, still_running: 0
+2016-11-15 14:19:18.770 T:4740    INFO: CurlHttpLoader::Send - curl_multi_perform Error: 0,-header code:0 No error. url:http://data.video.qiyi.com/v.f4v
+2016-11-15 14:19:18.770 T:4740   DEBUG: CurlHttpLoader::Close, 0
+2016-11-15 14:19:18.770 T:4740   DEBUG: CurlHttpLoader::Close, 1
+2016-11-15 14:19:18.770 T:4740   DEBUG: CurlHttpLoader::Close, 3
+2016-11-15 14:19:18.770 T:4740   DEBUG: Enter Net Request
+2016-11-15 14:19:18.771 T:4740    INFO: send request: http://puma.api.iqiyi.com/config/fetch?platform=pc&brand=2, set timeout: 3
+2016-11-15 14:19:18.772 T:4740    INFO: http exit: 0, still_running: 0
+2016-11-15 14:19:18.773 T:4740    INFO: CurlHttpLoader::Send - curl_multi_perform Error: 0,-header code:0 No error. url:http://puma.api.iqiyi.com/config/fetch?platform=pc&brand=2
+2016-11-15 14:19:18.773 T:4740    INFO: Open Online Config Failed : http://puma.api.iqiyi.com/config/fetch
+2016-11-15 14:19:18.773 T:4740   DEBUG: CThread::StopThread, [4740] Action End
+2016-11-15 14:19:18.818 T:5596   DEBUG: ffmpeg[INFO]: [ffmpeg]:@(#)Id: Verion:1.0.41 Released by iqiyi. Build @May  4 2016 00:25:42 2fdd42e2f58dae148608195fd0420e380e5f621c
+2016-11-15 14:19:18.838 T:5596   DEBUG: init FFmpeg end!
+2016-11-15 14:19:18.838 T:5596 WARNING: DRMDataProvider::StartModule DRM module path: E:\∞Æ∆Ê“’\IQIYI Video\PStyle\Wasabi.dll
+2016-11-15 14:19:18.838 T:5596   ERROR: DRMDataProvider::Initialize Dynamic Load  DRM Module Failed: E:\∞Æ∆Ê“’\IQIYI Video\PStyle\Wasabi.dll
+2016-11-15 14:19:18.838 T:5596    INFO: Init HCDN Module Param : (kernel path: rnel_QyClient\, cache path:, cache size:0)
+2016-11-15 14:19:18.838 T:5596 WARNING: Init HCDN Module:'p2p_kernel_path or local_cache_path not exists!'
+2016-11-15 14:19:18.838 T:5596 WARNING: HCDN StartModule...
+2016-11-15 14:19:18.838 T:5596 WARNING: CHCDNControl::StartModule module path: E:\∞Æ∆Ê“’\IQIYI Video\PStyle\HCDNProxy.dll
+2016-11-15 14:19:19.071 T:5596 WARNING: HCDN StartModule Success!
+2016-11-15 14:19:19.072 T:5596    INFO: Init HCDN Module Param : (kernel path: rnel_QyClient\, cache path:, cache size:0)
+2016-11-15 14:19:19.073 T:5596 WARNING: Init HCDN Module:'p2p_kernel_path or local_cache_path not exists!'
+2016-11-15 15:02:53.383 T:5596 WARNING: HCDN StopModule...
+2016-11-15 15:02:53.383 T:5596   DEBUG: UnLoad Audio Engine
+2016-11-15 15:02:53.383 T:5596   DEBUG: Previous line repeats 1 times.
+2016-11-15 15:02:53.383 T:5596   DEBUG: UnLoad Audio Engine end
+2016-11-15 15:02:53.383 T:5596   DEBUG: UnInitFFmpeg
+2016-11-15 15:02:53.383 T:5596   DEBUG: Unloading FFmpeg dll begin!
+2016-11-15 15:02:53.383 T:5596   DEBUG: Unloading FFmpeg dll end!
+2016-11-15 15:02:53.383 T:5596   DEBUG: CurlHttpLoader::Close, 0
+2016-11-15 15:02:53.383 T:5596   DEBUG: CurlHttpLoader::Close, 1
+2016-11-15 15:02:53.383 T:5596   DEBUG: CurlHttpLoader::Close, 3
+2016-11-15 15:02:53.383 T:7396   DEBUG: Pingback exit!
+2016-11-15 15:02:53.383 T:7396   DEBUG: CThread::StopThread, [7396] Action End
+2016-11-15 15:02:53.383 T:5596   DEBUG: CurlHttpLoader::Close, 0
+2016-11-15 15:02:53.383 T:5596   DEBUG: CurlHttpLoader::Close, 1
+2016-11-15 15:02:53.383 T:5596   DEBUG: CurlHttpLoader::Close, 3
